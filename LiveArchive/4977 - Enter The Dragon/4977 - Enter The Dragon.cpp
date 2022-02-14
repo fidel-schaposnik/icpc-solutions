@@ -9,7 +9,7 @@ using namespace std;
 #define LEFT(x) ( 2*(x) )
 #define RIGHT(x) ( 2*(x)+1 )
 
-int next[MAXN], m[MAXN], res[MAXN], rmq[2*MAXN];
+int _next[MAXN], m[MAXN], res[MAXN], rmq[2*MAXN];
 bool state[MAXN];
 vector<int> n[MAXN];
 
@@ -39,7 +39,7 @@ int main() {
 		cin >> N >> M;
 		
 		init(1, 1, N+1);
-		memset(next, 0, sizeof(next));
+		memset(_next, 0, sizeof(_next));
 		memset(state, true, sizeof(state));
 		for (i=1; i<=N; i++) n[i].clear();
 		
@@ -49,7 +49,7 @@ int main() {
 		}
 
 		for (i=1; i<=N; i++) if (!n[i].empty()) {
-			update(1, 1, N+1, i, n[i][next[i]++]);
+			update(1, 1, N+1, i, n[i][_next[i]++]);
 			n[i].push_back(INF);
 		}
 		
@@ -58,7 +58,7 @@ int main() {
 		for (i=0; FLAG && i<M; i++) {
 			if (m[i]) {
 				if (!state[m[i]]) {
-					update(1, 1, N+1, m[i], n[m[i]][next[m[i]]++]);
+					update(1, 1, N+1, m[i], n[m[i]][_next[m[i]]++]);
 					state[m[i]] = true;
 				} else FLAG = false;
 			} else {
