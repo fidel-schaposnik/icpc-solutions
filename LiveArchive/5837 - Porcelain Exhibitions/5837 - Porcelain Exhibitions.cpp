@@ -40,7 +40,7 @@ void add_edge(int a, int b, int cd, int cr) {
 }
 
 bool bfs(int *r, int N, int SOURCE, int SINK) {
-	int i, S, E, s[MAXN], cur, next, cure;
+	int i, S, E, s[MAXN], cur, _next, cure;
 
 	for (i=0; i<N; i++) {r[i] = -1; n[i].point = 0;} r[SOURCE] = 0;
 	S = E = 0; s[E++] = SOURCE;
@@ -48,10 +48,10 @@ bool bfs(int *r, int N, int SOURCE, int SINK) {
 		cur = s[S++];
 		for (i=0; i<(int)n[cur].c.size(); i++) {
 			cure = n[cur].c[i];
-			next = OTHER(cure, cur);
-			if (r[next] == -1 && RESIDUAL(cure, cur) > 0) {
-				s[E++] = next;
-				r[next] = r[cur]+1;
+			_next = OTHER(cure, cur);
+			if (r[_next] == -1 && RESIDUAL(cure, cur) > 0) {
+				s[E++] = _next;
+				r[_next] = r[cur]+1;
 			}
 		}
 	}
@@ -64,10 +64,10 @@ int dfs(int *r, int SOURCE, int SINK, int cur, int flowcap) {
 	int curflow = 0;
 	for (; curflow<flowcap && n[cur].point<(int)n[cur].c.size(); n[cur].point++) {
 		int cure = n[cur].c[n[cur].point];
-		int next = OTHER(cure, cur);
+		int _next = OTHER(cure, cur);
 
-		if (r[next] == r[cur]+1 && RESIDUAL(cure, cur) > 0) {
-			int tmp = dfs(r, SOURCE, SINK, next, min(flowcap-curflow, RESIDUAL(cure, cur)));
+		if (r[_next] == r[cur]+1 && RESIDUAL(cure, cur) > 0) {
+			int tmp = dfs(r, SOURCE, SINK, _next, min(flowcap-curflow, RESIDUAL(cure, cur)));
 			curflow += tmp;
 			if (cur == e[cure].a) e[cure].f += tmp;
 			else e[cure].f -= tmp;
@@ -109,7 +109,7 @@ struct frontera {
 	int a, b, w;
 } m[MAXM];
 
-int CUR, next[MAXP][MAXP];
+int CUR, _next[MAXP][MAXP];
 vector<int> adj[MAXP], points[MAXN];
 map< pair<int,int>, int > border;
 
@@ -120,7 +120,7 @@ bool cmp(const int &a, const int &b) {
 void dfs2(int cur, int prev, int p) {
 	border[make_pair(prev, cur)] = p;
 	points[p].push_back(cur);
-	int tmp = next[cur][prev];
+	int tmp = _next[cur][prev];
 	if (border.find(make_pair(cur, tmp)) == border.end()) dfs2(tmp, cur, p);
 }
 
@@ -147,8 +147,8 @@ int main() {
 		
 		for (CUR=0; CUR<P; CUR++) {
 			sort(adj[CUR].begin(), adj[CUR].end(), cmp);
-			for (i=0; i<adj[CUR].size()-1; i++) next[CUR][adj[CUR][i]] = adj[CUR][i+1];
-			next[CUR][adj[CUR].back()] = adj[CUR][0];
+			for (i=0; i<adj[CUR].size()-1; i++) _next[CUR][adj[CUR][i]] = adj[CUR][i+1];
+			_next[CUR][adj[CUR].back()] = adj[CUR][0];
 		}
 		
 		N = 0; border.clear();
