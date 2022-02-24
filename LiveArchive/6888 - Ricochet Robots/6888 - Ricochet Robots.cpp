@@ -7,7 +7,7 @@ using namespace std;
 #define MAXH 16
 #define MAXS 16777216
 
-int hash(int p[4][2], int N) {
+int _hash(int p[4][2], int N) {
 	int RES = 0;
 	for (int i=0; i<N; i++) for (int j=0; j<2; j++) RES = RES*10+p[i][j];
 	return RES;
@@ -42,7 +42,7 @@ int main() {
 			}
 		}
 		
-		S = E = 0; s[E++] = hash(p, N);
+		S = E = 0; s[E++] = _hash(p, N);
 		d.clear(); d[s[0]] = 0;
 		while (S < E) {
 			cur = s[S++];
@@ -59,7 +59,7 @@ int main() {
 					memcpy(tmpp, p, sizeof(p));
 					tmpp[i][0] = x;
 					tmpp[i][1] = y;
-					next = hash(tmpp, N);
+					next = _hash(tmpp, N);
 					if (d.find(next) == d.end()) {
 						d[next] = curd+1;
 						s[E++] = next;

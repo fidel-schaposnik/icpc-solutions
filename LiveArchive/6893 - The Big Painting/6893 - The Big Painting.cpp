@@ -4,17 +4,17 @@ using namespace std;
 #define MAXN 2048
 #define VALUE(x) ( (x)=='o' ? 3ULL : 7ULL )
 
-typedef unsigned long long hash;
+typedef unsigned long long HASH;
 
-hash h[MAXN][MAXN], pow33[MAXN], pow41[MAXN];
+HASH h[MAXN][MAXN], pow33[MAXN], pow41[MAXN];
 
-hash calc(int a, int b, int c, int d) {
+HASH calc(int a, int b, int c, int d) {
 	return h[b][d] - h[a][d]*pow41[b-a] - h[b][c]*pow33[d-c] + h[a][c]*pow33[d-c]*pow41[b-a];
 }
 
 int main() {
 	int Rp, Cp, R, C, i, j, RES;
-	hash tmp, PATTERN;
+	HASH tmp, PATTERN;
 	char tmpc;
 	
 	pow33[0] = pow41[0] = 1ULL;
